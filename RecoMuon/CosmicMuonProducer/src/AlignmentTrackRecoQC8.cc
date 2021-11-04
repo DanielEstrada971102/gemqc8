@@ -361,10 +361,12 @@ Trajectory AlignmentTrackRecoQC8::makeTrajectory(TrajectorySeed seed, MuonTransi
   TrajectoryStateOnSurface tsosCurrent = tsos;
   TransientTrackingRecHit::ConstRecHitContainer consRecHits;
 
-  TrajectorySeed::range range = seed.recHits();
+  //TrajectorySeed::range range = seed.recHits(); original
+  TrajectorySeed::RecHitRange range = seed.recHits(); // change made by Daniel
   int nseed = 0;
   GlobalPoint seedGP[2];
-  for (edm::OwnVector<TrackingRecHit>::const_iterator rechit = range.first; rechit!=range.second; ++rechit){
+  //for (edm::OwnVector<TrackingRecHit>::const_iterator rechit = range.first; rechit!=range.second; ++rechit){ original
+  for (edm::OwnVector<TrackingRecHit>::const_iterator rechit = range.begin(); rechit!=range.end(); ++rechit){ // change made by Daniel
     GEMDetId hitID(rechit->rawId());
     seedGP[nseed] = gemGeom->idToDet((*rechit).rawId())->surface().toGlobal(rechit->localPosition());
     nseed++;

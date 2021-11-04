@@ -24,6 +24,7 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h" // change made by Daniel
 
 #include "DataFormats/TrackReco/interface/Track.h"
 
@@ -55,7 +56,8 @@ CosmicMuonProducer::CosmicMuonProducer(const ParameterSet& iConfig)
 
   edm::ConsumesCollector iC = consumesCollector();
   
-  theService = new MuonServiceProxy(serviceParameters);
+  // theService = new MuonServiceProxy(serviceParameters); original
+  theService = new MuonServiceProxy(serviceParameters, consumesCollector()); // change made by Daniel
   theTrackFinder = new MuonTrackFinder(new CosmicMuonTrajectoryBuilder(tbpar,theService,iC),
 				       new MuonTrackLoader(trackLoaderParameters,iC, theService));
 

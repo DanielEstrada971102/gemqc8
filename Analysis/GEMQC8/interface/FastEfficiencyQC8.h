@@ -57,7 +57,7 @@ class FastEfficiencyQC8 : public GEMBaseValidation
 {
 public:
 
-  explicit FastEfficiencyQC8( const edm::ParameterSet& );
+  explicit FastEfficiencyQC8( const edm::ParameterSet&, const DQMEDAnalyzerGlobalCache*& );
   ~FastEfficiencyQC8();
   void bookHistograms(DQMStore::IBooker &, edm::Run const &, edm::EventSetup const &) override;
   void analyze(const edm::Event& e, const edm::EventSetup&) override;

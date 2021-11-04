@@ -24,6 +24,8 @@
 #include "DataFormats/TrackReco/interface/Track.h"
 #include "DataFormats/TrackReco/interface/TrackExtra.h"
 #include "RecoMuon/TrackingTools/interface/MuonServiceProxy.h"
+ 
+#include "FWCore/Framework/interface/ConsumesCollector.h" // chage made by Daniel
 
 using namespace edm;
 using namespace std;
@@ -39,7 +41,8 @@ CosmicMuonLinksProducer::CosmicMuonLinksProducer(const ParameterSet& iConfig)
 
   ParameterSet serviceParameters = iConfig.getParameter<ParameterSet>("ServiceParameters");
 
-  theService = new MuonServiceProxy(serviceParameters);
+  //theService = new MuonServiceProxy(serviceParameters); original
+  theService = new MuonServiceProxy(serviceParameters, consumesCollector()); // change made by Daniel
 
   std::vector<edm::ParameterSet> theMapPSets = iConfig.getParameter<std::vector<edm::ParameterSet> >("Maps");
   for (std::vector<edm::ParameterSet>::const_iterator iMPS = theMapPSets.begin();

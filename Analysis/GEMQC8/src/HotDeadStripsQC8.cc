@@ -1,16 +1,19 @@
 #include "Analysis/GEMQC8/interface/HotDeadStripsQC8.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h" // change made by daniel
 
 using namespace std;
 using namespace edm;
 
-HotDeadStripsQC8::HotDeadStripsQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cfg)
+HotDeadStripsQC8::HotDeadStripsQC8(const edm::ParameterSet& cfg, const DQMEDAnalyzerGlobalCache*&)
+: GEMBaseValidation(cfg, "HotDeadStripsAnalyzer")
 {
   time_t rawTime;
   time(&rawTime);
   printf("Begin of HotDeadStripsQC8::HotDeadStripsQC8() at %s\n", asctime(localtime(&rawTime)));
   InputTagToken_DG = consumes<GEMDigiCollection>(cfg.getParameter<edm::InputTag>("gemDigiLabel"));
   edm::ParameterSet serviceParameters = cfg.getParameter<edm::ParameterSet>("ServiceParameters");
-  theService = new MuonServiceProxy(serviceParameters);
+  //theService = new MuonServiceProxy(serviceParameters);originial
+  theService = new MuonServiceProxy(serviceParameters, consumesCollector()); // change made by Daniel
   theUpdator = new KFUpdator();
   time(&rawTime);
 

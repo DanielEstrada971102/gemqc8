@@ -1,16 +1,19 @@
 #include "Analysis/GEMQC8/interface/HighGranFastEffQC8.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h" // change made by Daniel
 
 using namespace std;
 using namespace edm;
 
-HighGranFastEffQC8::HighGranFastEffQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cfg)
+HighGranFastEffQC8::HighGranFastEffQC8(const edm::ParameterSet& cfg, const DQMEDAnalyzerGlobalCache*&)
+: GEMBaseValidation(cfg, "GEMEGranfficiencyAnalyzer")
 {
 	time_t rawTime;
 	time(&rawTime);
 	printf("Begin of HighGranFastEffQC8::HighGranFastEffQC8() at %s\n", asctime(localtime(&rawTime)));
 	InputTagToken_RH = consumes<GEMRecHitCollection>(cfg.getParameter<edm::InputTag>("recHitsInputLabel"));
 	edm::ParameterSet serviceParameters = cfg.getParameter<edm::ParameterSet>("ServiceParameters");
-	theService = new MuonServiceProxy(serviceParameters);
+	//theService = new MuonServiceProxy(serviceParameters); original
+	theService = new MuonServiceProxy(serviceParameters, consumesCollector()); // change made by Daniel
 	minCLS = cfg.getParameter<double>("minClusterSize");
 	maxCLS = cfg.getParameter<double>("maxClusterSize");
 	TripEventsPerCh = cfg.getParameter<vector<string>>("tripEvents");

@@ -1,9 +1,11 @@
 #include "Analysis/GEMQC8/interface/CertifyEventsQC8.h"
+ #include "FWCore/Framework/interface/ConsumesCollector.h" // change made by Daniel
 
 using namespace std;
 using namespace edm;
 
-CertifyEventsQC8::CertifyEventsQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cfg)
+CertifyEventsQC8::CertifyEventsQC8(const edm::ParameterSet& cfg,const DQMEDAnalyzerGlobalCache*&)
+: GEMBaseValidation(cfg, "CertifyEvents")
 {
 	time_t rawTime;
 	time(&rawTime);
@@ -11,7 +13,8 @@ CertifyEventsQC8::CertifyEventsQC8(const edm::ParameterSet& cfg): GEMBaseValidat
 	InputTagToken_RH = consumes<GEMRecHitCollection>(cfg.getParameter<edm::InputTag>("recHitsInputLabel"));
 	InputTagToken_DG = consumes<GEMDigiCollection>(cfg.getParameter<edm::InputTag>("gemDigiLabel"));
 	edm::ParameterSet serviceParameters = cfg.getParameter<edm::ParameterSet>("ServiceParameters");
-	theService = new MuonServiceProxy(serviceParameters);
+	//theService = new MuonServiceProxy(serviceParameters); original
+	theService = new MuonServiceProxy(serviceParameters, consumesCollector()); // change made by Daniel
 	minCLS = cfg.getParameter<double>("minClusterSize");
 	maxCLS = cfg.getParameter<double>("maxClusterSize");
 	theUpdator = new KFUpdator();

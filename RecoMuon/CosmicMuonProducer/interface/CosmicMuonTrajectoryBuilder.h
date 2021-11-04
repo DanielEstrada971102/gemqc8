@@ -46,7 +46,7 @@ public:
   ~CosmicMuonTrajectoryBuilder() override;
 
   /// build trajectories from seed
-  std::vector<Trajectory*> trajectories(const TrajectorySeed&) override;
+  //std::vector<Trajectory*> trajectories(const TrajectorySeed&) override;
 
   /// dummy implementation, unused in this class
   CandidateContainer trajectories(const TrackCand&) override {

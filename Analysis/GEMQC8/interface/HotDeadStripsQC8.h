@@ -56,7 +56,7 @@ class HotDeadStripsQC8 : public GEMBaseValidation
 {
 public:
 
-  explicit HotDeadStripsQC8( const edm::ParameterSet& );
+  explicit HotDeadStripsQC8( const edm::ParameterSet&, const DQMEDAnalyzerGlobalCache*& );
   ~HotDeadStripsQC8();
   void bookHistograms(DQMStore::IBooker &, edm::Run const &, edm::EventSetup const &) override;
   void analyze(const edm::Event& e, const edm::EventSetup&) override;

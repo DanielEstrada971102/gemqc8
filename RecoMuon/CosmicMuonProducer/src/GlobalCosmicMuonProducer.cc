@@ -23,6 +23,7 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h" // change made by daniel
 
 #include "DataFormats/MuonReco/interface/MuonTrackLinks.h"
 #include "DataFormats/MuonReco/interface/MuonFwd.h"
@@ -49,7 +50,8 @@ GlobalCosmicMuonProducer::GlobalCosmicMuonProducer(const edm::ParameterSet& iCon
   edm::ParameterSet trackLoaderParameters = iConfig.getParameter<edm::ParameterSet>("TrackLoaderParameters");
   
   // the services
-  theService = new MuonServiceProxy(serviceParameters);
+  //theService = new MuonServiceProxy(serviceParameters); original
+  theService = new MuonServiceProxy(serviceParameters, consumesCollector()); //change made by daniel
   edm::ConsumesCollector iC = consumesCollector();
   theTrackFinder = new MuonTrackFinder(new GlobalCosmicMuonTrajectoryBuilder(tbpar,theService,iC),
 				       new MuonTrackLoader(trackLoaderParameters,iC, theService));

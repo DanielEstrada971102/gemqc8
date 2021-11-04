@@ -1,9 +1,11 @@
 #include "Analysis/GEMQC8/interface/ValidationQC8.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h" // change made by daniel
 
 using namespace std;
 using namespace edm;
 
-ValidationQC8::ValidationQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cfg)
+ValidationQC8::ValidationQC8(const edm::ParameterSet& cfg, const DQMEDAnalyzerGlobalCache*&)
+: GEMBaseValidation(cfg, "GEMEValidationAnalyzer")
 {
   time_t rawTime;
   time(&rawTime);
@@ -18,7 +20,8 @@ ValidationQC8::ValidationQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cf
   InputTagToken_DG = consumes<GEMDigiCollection>(cfg.getParameter<edm::InputTag>("gemDigiLabel"));
   if ( isMC ) InputTagToken_US = consumes<edm::HepMCProduct>(cfg.getParameter<edm::InputTag>("genVtx"));
   edm::ParameterSet serviceParameters = cfg.getParameter<edm::ParameterSet>("ServiceParameters");
-  theService = new MuonServiceProxy(serviceParameters);
+  //theService = new MuonServiceProxy(serviceParameters); orinigal
+  theService = new MuonServiceProxy(serviceParameters, consumesCollector()); //change made by Daniel
   minCLS = cfg.getParameter<double>("minClusterSize");
   maxCLS = cfg.getParameter<double>("maxClusterSize");
   maxRes = cfg.getParameter<double>("maxResidual");

@@ -1,9 +1,11 @@
 #include "Analysis/GEMQC8/interface/AlignmentQC8.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h" // change made by Daniel
 
 using namespace std;
 using namespace edm;
 
-AlignmentQC8::AlignmentQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cfg)
+AlignmentQC8::AlignmentQC8(const edm::ParameterSet& cfg, const DQMEDAnalyzerGlobalCache*&)
+: GEMBaseValidation(cfg,"AlignmenAnalizer")
 {
   time_t rawTime;
   time(&rawTime);
@@ -15,7 +17,8 @@ AlignmentQC8::AlignmentQC8(const edm::ParameterSet& cfg): GEMBaseValidation(cfg)
   InputTagToken_TJ = consumes<vector<Trajectory>>(cfg.getParameter<edm::InputTag>("trajInputLabel"));
   InputTagToken_DG = consumes<GEMDigiCollection>(cfg.getParameter<edm::InputTag>("gemDigiLabel"));
   edm::ParameterSet serviceParameters = cfg.getParameter<edm::ParameterSet>("ServiceParameters");
-  theService = new MuonServiceProxy(serviceParameters);
+  //theService = new MuonServiceProxy(serviceParameters); original
+  theService = new MuonServiceProxy(serviceParameters, consumesCollector()); // change made by Daniel
   minCLS = cfg.getParameter<double>("minClusterSize");
   maxCLS = cfg.getParameter<double>("maxClusterSize");
   maxRes = cfg.getParameter<double>("maxResidual");

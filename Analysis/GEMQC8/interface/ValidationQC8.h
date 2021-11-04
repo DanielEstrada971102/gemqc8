@@ -59,7 +59,7 @@
 class ValidationQC8 : public GEMBaseValidation
 {
 public:
-  explicit ValidationQC8( const edm::ParameterSet& );
+  explicit ValidationQC8( const edm::ParameterSet&, const DQMEDAnalyzerGlobalCache*& );
   ~ValidationQC8();
   void bookHistograms(DQMStore::IBooker &, edm::Run const &, edm::EventSetup const &) override;
   void analyze(const edm::Event& e, const edm::EventSetup&) override;

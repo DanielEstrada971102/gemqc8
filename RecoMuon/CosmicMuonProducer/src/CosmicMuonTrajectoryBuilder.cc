@@ -1,6 +1,3 @@
-// the file was completely changed according to the online release 12 file, made by Daniel
-//=============================== new realese file ===============================
-
 #include "RecoMuon/CosmicMuonProducer/interface/CosmicMuonTrajectoryBuilder.h"
 /** \file CosmicMuonTrajectoryBuilder
  *

@@ -1,34 +1,25 @@
-# gemqc8
-If you want to analyse QC8 real data:
+# gemsw
+QC8 and testbeam 
+
+instructions for setting up
 ```bash
-scram p -n QC8Test CMSSW CMSSW_12_0_0_pre3
-cd QC8Test/src
-cmsenv
-git clone https://github.com/DanielEstrada971102/gemqc8.git
-mv gemqc8/* .
-rm -rf gemqc8
-scram b -j 4
-cd Analysis/GEMQC8/test
-python launcher_hot_dead_strips.py #run_number#
-python launcher_certify_events.py #run_number#
-python launcher_fast_efficiency.py #run_number#
-python launcher_alignment.py #run_number#
-python launcher_validation.py #run_number# noAlignment yesMasks
-python launcher_validation.py #run_number# noAlignment noMasks
-python launcher_validation.py #run_number# yesAlignment yesMasks
-python launcher_validation.py #run_number# yesAlignment noMasks
+cmsrel CMSSW_12_1_0_pre3
+cd CMSSW_12_1_0_pre3/src
+git clone git@github.com:gem-sw/gemsw.git
+scram b -j10
 ```
 
-If you want to run simulations, download the package following these instructions:
+# testbeam unpacking
+instructions for unpacking the data from testbeam set up
 ```bash
-scram p -n QC8Test CMSSW CMSSW_12_0_0_pre3
-cd QC8Test/src
+cmsrel CMSSW_12_1_0_pre4
+cd CMSSW_12_1_0_pre4/src
 cmsenv
-git clone https://github.com/DanielEstrada971102/gemqc8.git
-mv gemqc8/* .
-rm -rf gemqc8
+git cms-init -q
+git cms-merge-topic yeckang:mapping_update_v0.5 # Will be updated
+git clone git@github.com:gem-sw/gemsw.git
 scram b -j 4
-cd Analysis/GEMQC8/test
-python launcher_sim_fast_efficiency.py #run_number#
-python launcher_sim.py #run_number#
+cd gemsw/EventFilter/test
+cmsRun testbeamReadout.py inputFiles=<file path> useB904Data=True skipBadDigi=False dqm=True reconstruct=True isME0data=<True or False>
+python3 make_profile.py <DQM root file> <root file to save profile>
 ```

@@ -1,5 +1,0 @@
-<use   name="classlib"/>
-<use   name="zlib"/>
-<export>
-  <lib   name="1"/>
-</export>

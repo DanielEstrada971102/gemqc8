@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<DDDefinition>
+
+<SolidSection label="muonBase.xml">
+  <Box name="MUON" dx="10*m" dy="10*m" dz="10*m"/>
+</SolidSection>
+
+<LogicalPartSection label="muonBase.xml">
+  <LogicalPart name="MUON" category="unspecified">
+    <rSolid name="MUON"/>
+    <rMaterial name="materials:Air"/>
+  </LogicalPart>
+</LogicalPartSection>
+
+</DDDefinition>
